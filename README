@@ -1,0 +1,36 @@
+Minimal wsgi router from JSON configuration file
+
+This wsgi router translates parameters (from the JSON file), request parameters
+and post parameters from a URL to a function in a module (also configured in
+the JSON file).
+
+The JSON file (router.json) is formatted like this:
+
+    {
+        "GET": [
+            {
+                "regex": "^/$",
+                "args": {
+                    "year": 2015,
+                    "month": 1,
+                    "day": 1
+                },
+                "call": "datetime.datetime",
+                "serialize": "__builtin__.str"
+            }
+        ]
+    }
+
+Which outputs: 2015-01-01 00:00:00 when you open this page in a browser
+
+The following parameters can be used:
+
+regexp           Regular Expression for the URI
+reponse.code     Response code (200, 404 etc)
+       .headers  Response headers (Set-cookie: etc)
+       .data     Response data (To output data from middleware instead of a function call)
+include          List of include of other json files
+middleware       List of middleware functions
+args             Arguments which will be passed to the function in call
+call             Function which will be called
+serialize        Function which will transform the output from call to output
